@@ -1,0 +1,272 @@
+.table{
+	background: white;
+	width:100%;
+	overflow: auto;
+}
+
+
+.table-a .table-info{
+	display: flex;
+	flex-wrap: wrap;
+}
+.table-a .table-info>div{
+	width: 50%;
+}
+
+.table-a .table-info>div.full-width{
+	width: 100%;
+}
+.table-a .table-info>div.error-message{
+	color: red;
+	text-align: center;
+	font-size: bolder;
+}
+
+
+
+
+.table>table{
+	border:1px solid darkgrey;
+	border-collapse: collapse;
+	background: white;
+	overflow: auto;
+	box-sizing: border-box;
+	width: 100%;
+}
+.table>table>thead{
+	background: #212121;
+	color: white;
+}
+.table>table>thead>tr{
+	border:1px solid black;
+}
+.table>table>thead>tr>th{
+	padding:8px 12px;
+	font-weight: normal;
+}
+[data-table-sort-by]:after{
+	font-family: "Font Awesome 5 Free"; 
+	font-weight: 900; 
+	content: "\f0dc";
+	margin-left: 5px;
+	font-size: .8em;
+	color: white;
+}
+
+[data-table-sort-by-active]:after{
+	font-size: 1.1em;
+}
+.table>table>tbody>tr>td{
+	padding: 8px 12px;
+
+}
+.table>table>tbody>tr{
+	border-bottom: 1px solid #f0f0f0
+}
+.table>table>tbody>tr:last-child{
+	border-bottom: none;
+}
+.table>table>thead>tr>td{
+	text-align: center;
+}
+.table>table>tbody>tr>td{
+	text-align: center;
+}
+
+
+.table.table-a{
+}
+.table.table-a>table>thead{
+	background: #486e94;
+}
+.table.table-a>table>thead>tr{
+	border:1px solid grey;
+}
+
+[data-list-pagination]{
+	display: flex;
+	align-items: center;
+}
+[data-list-pagination]>ul{
+	display: flex;
+	align-items: center;
+}
+[data-list-pagination]>ul>li{
+	padding:4px;
+	color: #156EBD;
+	cursor: pointer;
+}
+
+[data-list-pagination]>ul>li.active{
+	font-weight: bolder;
+	font-size: 1.2em;
+	border-bottom: 2px solid grey
+}
+
+.rv{
+	background: white;
+	padding:5px;
+	border-radius:8px;
+	box-shadow: 0 0 10px -1px darkgrey;
+	font-size: 12px;
+}
+
+.rv-heading{
+	background: white;
+	color: var(--theme-color-four);
+	font-size:2em;
+	text-align: center;
+	padding:10px;
+	display: block;
+}
+.rv-action-bar{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+.rv-action-bar button{
+	margin: 0 2px;
+}
+
+.rv-filter-section{
+	background: white;
+	padding: 8px;
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+.rv-filter-section div.filter-item{
+	width:100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin:2px;
+	padding:2px;
+	background:#f2f2f2;
+	border: 1px solid #f4f4f4;
+	border-radius: 5px;
+	flex-grow: 1;
+}
+.rv-filter-section div.filter-item.half{
+	width: 50%;
+}
+.rv-filter-section div.filter-item.half{
+	width: 32%;
+}
+.rv-filter-section div.filter-item.fourth{
+	width: 24%;
+}
+.rv-filter-section div.filter-item label{
+	width: 40%;
+	flex-grow: 1;
+	font-size: 1.2em;
+	padding:5px 8px;
+	background: #f1f1f1;
+	margin-right: 5px;
+}
+.rv-filter-section div.filter-item input,
+.rv-filter-section div.filter-item select{
+	width:55%;
+	border: none;
+}
+.rv-filter-buttons ul{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	font-size: 1.2em;
+}
+.rv-filter-buttons ul li{
+	border: 1px solid #f2f2f2;
+	border-radius: 5px;
+	margin: 3px;
+	padding:1px 5px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.rv-filter-buttons input[type='checkbox']{
+	width: 10px;
+}
+.rv-filter-buttons ul li span{
+	display: block;
+	padding:1px 3px;
+	font-weight: bold;
+}
+
+.rv-table{
+	background: white;
+	width:100%;
+	overflow-x: auto;
+}
+
+
+.rv-table-a .rv-table-info{
+	display: flex;
+	flex-wrap: wrap;
+}
+.rv-table-a .rv-table-info>div{
+	width: 50%;
+}
+
+.rv-table-a .rv-table-info>div.full-width{
+	width: 100%;
+}
+.rv-table-a .rv-table-info>div.error-message{
+	color: red;
+	text-align: center;
+	font-size: bolder;
+}
+
+.rv-table>table{
+	border:1px solid darkgrey;
+	border-collapse: collapse;
+	background: white;
+	box-sizing: border-box;
+	width: 100%;
+	font-size: 1.1em;
+}
+.rv-table>table>thead{
+	background: #486e94;
+	color: white;
+}
+.rv-table>table>thead>tr>th{
+	padding:3px 3px;
+	font-weight: normal;
+	border: 1px solid grey;
+	font-weight: bold;
+}
+[data-table-sort-by]:after{
+	font-family: "Font Awesome 5 Free"; 
+	font-weight: 900; 
+	content: "\f0dc";
+	margin-left: 5px;
+	font-size: .8em;
+	color: white;
+}
+
+[data-table-sort-by-active]:after{
+	font-size: 1.1em;
+}
+.rv-table>table>tbody>tr>td{
+	padding:1px 5px;
+	border: .5px solid grey;
+	text-align: center;
+}
+.rv-table>table>tbody>tr>td input,
+.rv-table>table>tbody>tr>td select{
+	height: 1.6em !important;
+	font-size: .9em;
+	padding: 2px !important;
+	margin: 1.5px;
+}
+
+.rv-table>table>tbody>tr{
+	border-bottom: 1px solid #f0f0f0
+}
+
+.rv-table>table>tbody>tr:last-child{
+	border-bottom: none;
+}
+.rv-table>table>tbody>tr>td.act-box i{
+	margin:2px 3px;
+}

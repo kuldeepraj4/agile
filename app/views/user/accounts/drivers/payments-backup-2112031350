@@ -1,0 +1,329 @@
+<?php
+require_once APPROOT.'/views/includes/user/header.php';
+  $page=isset($_GET['page'])?$_GET['page']:1;
+
+?>
+
+<br><br>
+<section class="list-200 content-box" style="margin: auto;max-width:1300px">
+    <h1 class="list-200-heading" id="heading">All Settlements Details</h1>
+    <section class="list-200-top-section">
+        <div> 
+            
+        </div>
+        <div>
+            
+        </div>
+    </section>
+
+
+
+    <section class="list-200-top-action">
+        <div class="list-200-top-action-left">
+
+            <!-- input used for sory by call-->
+            <input type="hidden" id="sort_by" value="">
+            <!-- //input used for sory by call-->
+            
+
+            <div class="filter-item">
+                <label>Payment ID</label>
+            <input type="text" data-filter="payment_id" onkeyup="show_list()">
+            </select>
+            </div>
+
+         <div class="filter-item">
+        <label>Driver</label>
+        <input type="text" list="quick_list_drivers" data-filter="driver_id" onkeyup="onchage_driver_filter(this.value)">
+      </div>                           
+      <div class="filter-item">
+        <label>Create Date From</label>
+        <input type="text" data-date-picker="" data-filter="created_date_from" onchange="show_list()">
+      </div>
+      <div class="filter-item">
+        <label>Create Date To</label>
+        <input data-date-picker="" type="text" data-filter="created_date_to" onchange="show_list()"/>
+      </div> 
+
+      <div class="filter-item">
+        <label>Paid Date From</label>
+        <input type="text" data-date-picker="" data-filter="paid_date_from" onchange="show_list()">
+      </div>
+      <div class="filter-item">
+        <label>Paid Date To</label>
+        <input data-date-picker="" type="text" data-filter="paid_date_to" onchange="show_list()"/>
+      </div>      
+
+        </div>
+    <div class="list-200-top-action-right">
+      <div><button class='btn_green' data-button-export-to-excel onclick="report_view()">Excel</button>
+      </div>
+    </div>
+                
+    </section>
+    <div class="list-200-records-info" style="padding: 5px;display: flex;flex-wrap: wrap;"><div>Total records : <b id="total-records"></b></div></div>
+    <div class="table  table-a">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>
+                    <th data-table-sort-by="id">Payment ID</th>
+                    <th style="text-align: left;" data-table-sort-by="driver_code">Driver</th>
+                    <th>Category</th>
+                    <th>Trip ID</th>
+                    <th>Type</th>
+                    <th style="text-align: right;">Amount</th>
+                    <th style="text-align: right;">Paid</th>
+                    <th style="text-align: right;">Balance</th>
+                    <th>Created By</th>
+                    <th>Created Datetime</th>
+                    <th>Remarks</th>
+                </tr>                       
+            </thead>
+            <tbody id="tabledata"></tbody>
+        </table>
+      <div class="table-pagination" data-list-pagination style="margin:5px"></div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  driver_id='';
+  function show_list(pageNo){
+    var sort_by=$('#sort_by').val();
+    $.ajax({
+      url:location.pathname+'-ajax',
+      type:'POST',
+      data:{
+        page:pageNo,
+        sort_by:sort_by,
+        driver_id:driver_id,
+        payment_id:$('[data-filter="payment_id"]').val(),
+        pay_status:$('[data-filter="pay_status"]').val(),
+        created_date_from:$('[data-filter="created_date_from"]').val(),
+        created_date_to:$('[data-filter="created_date_to"]').val(),
+        paid_date_from:$('[data-filter="paid_date_from"]').val(),
+        paid_date_to:$('[data-filter="paid_date_to"]').val(),
+        id:$('[data-filter="id"]').val(),
+        //added_date_from:$('[data-filter="start_date_from"]').val(),
+        //added_date_to:$('[data-filter="start_date_to"]').val()
+      },
+      beforeSend:function(){
+        $('#tabledata').html(`<tr><td colspan="18">Loading . . . <td></tr>`);
+      },
+      success:function(data){
+        console.log(data)
+        if((typeof data)=='string'){
+         data=JSON.parse(data)
+         console.log(data)
+         $('#tabledata').html("");
+         if(data.status){
+          $('#total-records').html(data.response.list.length)
+           $.each(data.response.list, function(index, item) {
+            var paid_by=(item.paid_by_user_code!='')?item.paid_by_user_code:'-';
+            var paid_time=(item.paid_on_datetime!='')?item.paid_on_datetime:'-';
+            var parameter_name=(item.parameter_name!='')?`<br>(`+item.parameter_name+`)`:'';
+             var row=`<tr>
+             <td>${item.sr_no}</td>
+             <td>${item.id}</td>
+             <td style="white-space:nowrap;text-align: left;">
+             <span class="text-link"  onclick="open_child_window({url:'../user/masters/drivers/details?eid=${item.driver_eid}'})">${item.driver_code} - ${item.driver_name}</span></td>
+             <td>
+             ${item.category}${parameter_name}</td>
+            <td class="text-link"  onclick="open_child_window({url:'../user/accounts/trips/details?eid=${item.trip_eid}'})">${item.trip_id}</td>
+             <td>${item.type}</td>
+             <td style="text-align:right">${item.amount}</td>
+             <td style="text-align:right">${item.amount_paid}</td>
+             <td style="text-align:right">${item.balance}</td>
+             <td>${item.added_by_user_code}</td> 
+             <td>${item.added_on_datetime}</td> 
+             <td style="text-align:left;white-space:pre">${item.remarks}</td> 
+            </tr>`;
+            $('#tabledata').append(row);
+
+          })
+
+           ///--pagination
+          $('[data-list-pagination]').data('list-pagination-total-pages',data.response.totalPages); //set total page value to pagination
+          $('[data-list-pagination]').data('list-pagination-active-pages',data.response.currentPage);
+          do_pagination()
+           ///--/pagination
+
+         }else{
+          var false_message=`<tr><td colspan="18">`+data.message+`<td></tr>`;
+          $('#tabledata').html(false_message);
+        }
+      }
+
+    }
+
+  })
+  }
+  show_list(<?php echo $page; ?>)
+</script>
+
+
+
+<!------report view-->
+        <div  id="reportSection"></div>
+<!----//report view-->
+<script type="text/javascript">
+  function report_view(param2){
+     param1={}
+    let param = Object.assign(param1, param2);    
+  if(param.hasOwnProperty('filetype')==false){
+    param.filetype='CSV';
+  }
+    var sort_by=$('#sort_by').val();
+    $.ajax({
+      url:location.pathname+'-ajax',
+      type:'POST',
+      data:{
+        report_view:true,
+        sort_by:sort_by,
+        driver_id:driver_id,
+        payment_id:$('[data-filter="payment_id"]').val(),
+        pay_status:$('[data-filter="pay_status"]').val(),
+        created_date_from:$('[data-filter="created_date_from"]').val(),
+        created_date_to:$('[data-filter="created_date_to"]').val(),
+        paid_date_from:$('[data-filter="paid_date_from"]').val(),
+        paid_date_to:$('[data-filter="paid_date_to"]').val(),
+        id:$('[data-filter="id"]').val(),
+      },
+      beforeSend:function(){
+        show_processing_modal();
+        $('#reportSection').show()
+        $('#reportSection').html(`<table id="reportTable"><thead><tr>
+                    <th>Sr. No.</th>
+                    <th>ID</th>
+                    <th>Driver</th>
+                    <th>Category</th>
+                    <th>Trip ID</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Created By</th>
+                    <th>Created Datetime</th>
+                    <th>Paid By</th>
+                    <th>Paid Datetime</th>                    
+                </tr>                       
+            </thead>
+            <tbody id="reportTableBody"></tbody></table>`);
+      },
+      success:function(data){
+        if((typeof data)=='string'){
+         data=JSON.parse(data)
+         if(data.status){
+           $.each(data.response.list, function(index, item) {
+            var paid_by=(item.paid_by_user_code!='')?item.paid_by_user_code:'-';
+            var paid_time=(item.paid_on_datetime!='')?item.paid_on_datetime:'-';
+            var parameter_name=(item.parameter_name!='')?`<br>(`+item.parameter_name+`)`:'';
+             var row=`<tr>
+             <td>${item.sr_no}</td>
+             <td>${item.id}</td>
+             <td style="white-space:nowrap;text-align: left;">
+             <span class="text-link"  onclick="open_child_window({url:'../user/masters/drivers/details?eid=${item.driver_eid}'})">${item.driver_code} - ${item.driver_name}</span></td>
+             <td>
+             ${item.category}${parameter_name}</td>
+            <td class="text-link"  onclick="open_child_window({url:'../user/accounts/trips/details?eid=${item.trip_eid}'})">${item.trip_id}</td>
+             <td>${item.type}</td>
+             <td style="text-align:right">${item.amount}</td>
+             <td>${item.status}</td>
+             <td>${item.added_by_user_code}</td> 
+             <td>${item.added_on_datetime}</td> 
+             <td>${paid_by}</td> 
+             <td>${paid_time}</td>           
+            </tr>`;
+            $('#reportTableBody').append(row);
+            // default action is 'download'
+
+          })
+           if(param.filetype=='CSV'){
+            $('#reportTable').first().table2csv({filename:'report-payments.csv'});
+           }
+           $('#reportSection').hide();
+           hide_processing_modal()
+            
+
+           ///--pagination
+          $('[data-list-pagination]').data('list-pagination-total-pages',data.response.totalPages); //set total page value to pagination
+          $('[data-list-pagination]').data('list-pagination-active-pages',data.response.currentPage);
+          do_pagination()
+           ///--/pagination
+
+         }else{
+          alert(data.message)
+          hide_processing_modal()
+        }
+      }
+
+    }
+
+  })
+  }
+</script>
+
+
+
+<script type="text/javascript">
+  function sort_table(){
+    show_list()
+  }
+</script>
+
+
+
+
+
+
+<datalist id="quick_list_drivers"></datalist>
+<script type="text/javascript">
+  function show_quick_list_drivers(){
+   quick_list_drivers().then(function(data) {
+  // Run this when your request was successful
+  if(data.status){
+
+    //Run this if response has list
+    if(data.response.list){
+      var options="";
+      options+=`<option data-driver-filter-rows="" data-value="" value="">- - Select - -</option>`
+      $.each(data.response.list, function(index, item) {
+        options+=`<option data-driver-filter-rows="`+item.code+' '+item.name+`" data-value="${item.id}" value="`+item.code+' '+item.name+`"></option>`;               
+      })
+      $('#quick_list_drivers').html(options);     
+    }
+  }
+}).catch(function(err) {
+  // Run this when promise was rejected via reject()
+}) 
+}
+show_quick_list_drivers()
+
+function onchage_driver_filter(value){
+  var this_driver_id=$(`[data-driver-filter-rows="${value}"]`).data('value');
+  if(this_driver_id!=undefined){
+    driver_id=this_driver_id
+    show_list();
+  }
+}
+
+</script>
+<br><br><br><br><br>
+<?php
+require_once APPROOT.'/views/includes/user/footer.php';
+?>

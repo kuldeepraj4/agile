@@ -1,0 +1,885 @@
+<script type="text/javascript">
+function show_table_data_loading(table_refrance){
+    let tds = $(table_refrance).children('thead').children('tr').children('th').length;
+    $(table_refrance).children('tbody').html(`<tr><td style="font-size:1.5em;padding:15px;" colspan='${tds}'><i class='fa fa-spinner fa-spin'></i> Loading . . . . </td></tr>`);
+}
+
+function open_child_window(param){
+  if(param.hasOwnProperty('width')==false){
+    param.width=1200;
+  }
+    if(param.hasOwnProperty('height')==false){
+    param.height=1000;
+  }
+  if(param.hasOwnProperty('name')==false){
+    param.name='myNewWindow';
+  }
+   window.open(param.url, param.name, `width=${param.width}, height=${param.height},location=no`);
+}
+function open_quick_view_truck(truck_eid){
+  open_child_window({url:`user/quick-view/truck?eid=${truck_eid}`})
+}
+
+function open_quick_view_driver(driver_eid){
+  open_child_window({url:`user/quick-view/driver?eid=${driver_eid}`})
+}
+function open_document(path){
+  open_child_window({url:path})
+}
+function open_notes(param){
+  if(param.hasOwnProperty('width')==false){
+    param.width=500;
+  }
+    if(param.hasOwnProperty('height')==false){
+    param.height=600;
+  }
+  if(param.hasOwnProperty('name')==false){
+    param.name='myNewWindow';
+  }
+   window.open(param.url, param.name, `width=${param.width}, height=${param.height},location=no`);
+}
+
+
+  function get_trucks(param2) {
+     param1={}
+    let param = Object.assign(param1, param2);   
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/trucks-basic-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+  function get_drivers(param2) {
+     param1={}
+    let param = Object.assign(param1, param2);   
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/drivers-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+  function get_countries(param2) {
+     param1={}
+    let param = Object.assign(param1, param2);   
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/locations/countries-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+  function get_states(param2) {
+    param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/locations/states-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+  function get_cities(param2) {
+       param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/locations/cities-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+} 
+
+
+  function get_zipcodes(param2) {
+       param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/locations/zipcodes-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+  function get_priorities(param2) {
+       param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/miscellaneous/priorities-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+} 
+  function get_mobile_country_codes(param2) {
+       param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/mobile-country-codes-list-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+
+  function get_route_types(param2) {
+       param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/route-types-list-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+ function get_vehicles() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/vehicles-list-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+  function get_vehicle_makers(param2) {
+       param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/vehicles/makers-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+  function get_vehicle_models(param2) {
+       param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/vehicles/models-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+  function get_vehicles_status() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/vehicles/status-list-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+
+  function get_salary_parameters() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/employees/salary-parameters-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+  function get_salary_parameter_types() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/employees/salary-parameters-types-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+  function get_salary_parameters() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/employees/salary-parameters-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+  function get_employees_status() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/employees/status-list-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+  function get_employees_prefix() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/employees/prefix-list-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+
+  function get_employees_residency() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/employees/residency-list-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+  function get_vehicles_ownership_types() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/vehicles/ownership-types-list-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+  function get_vehicles_colors() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/vehicles/colors-list-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+ function get_companies() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/companies-list-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+ function get_lease_companies() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/vehicles/lease-companies-list-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+ function get_device_companies() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/vehicles/device-companies-list-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+ function get_insurance_companies() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/vehicles/insurance-companies-list-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+ function get_reefer_companies() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/trailers/reefer-companies-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+
+  function get_driver_groups(param2) {
+       param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/drivers/groups-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+  function get_driver_ppm_plans(param2) {
+       param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/drivers/ppm-plans-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+  function get_trip_stop_types(param2) {
+       param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/accounts/trip-stop-types-list-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+
+
+  function get_roles_groups() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/users/roles-groups-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+  function get_hierarchy_levels(param2) {
+           param1={}
+    let param = Object.assign(param1, param2);  
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/hierarchy/levels-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+  function get_users() {
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/users-ajax';
+        $.ajax({
+        url:url,
+        data:{},
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+
+ function get_trips_months_list(param2) {
+         param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/accounts/trips/months-list';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+  function get_tickets_statges(param2) {
+       param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/task-management/tickets-stages/tickets-stages-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+ function quick_list_trips(param2) {
+         param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/accounts/trips/quick-list';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+ function quick_list_drivers(param2) {
+         param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+    var url="<?php echo AJAXROOT; ?>"+'user/masters/drivers-quick-list-ajax';
+        $.ajax({
+        url:url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+
+  });
+}
+
+function get_list(url,param2){
+         param1={}
+    let param = Object.assign(param1, param2);
+  return new Promise(function(resolve, reject) {
+        $.ajax({
+        url:"<?php echo AJAXROOT; ?>"+url,
+        data:param,
+        type:'POST',
+        success:function(data){
+               if((typeof data)=='string'){
+               data=JSON.parse(data) 
+               }
+               resolve(data)
+        },
+        error:function(err){
+          reject(err)
+        }
+    })
+  });
+}
+
+
+function get_ticket_priorities(param2){
+  return get_list('user/task-management/ticket-priorities/list-ajax',param2)
+}
+
+</script>
